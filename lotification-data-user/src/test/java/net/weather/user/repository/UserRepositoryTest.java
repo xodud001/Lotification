@@ -22,10 +22,8 @@ import java.util.List;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 class UserRepositoryTest {
-
     @PersistenceContext
     EntityManager em;
-
     @Autowired
     UserRepository userRepository;
 
