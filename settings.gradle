@@ -1,0 +1,5 @@
+rootProject.name = 'lotification'
+include 'lotification-boot-user'
+include 'lotification-data-user'
+include 'lotification-infra-riot'
+
