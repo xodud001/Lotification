@@ -1,6 +1,6 @@
-package net.weather.monitor.riot;
+package net.weather.riot;
 
-import net.weather.monitor.riot.response.SummonerResponse;
+import net.weather.riot.response.SummonerResponse;
 
 public interface SummonerApi {
 

@@ -1,4 +1,4 @@
-package net.weather.monitor.riot.response;
+package net.weather.riot.response;
 
 public record SummonerResponse(
         String id,
