@@ -5,8 +5,8 @@ public record SummonerResponse(
         String accountId,
         String puuid,
         String name,
-        String profileIconId,
-        String revisionDate,
-        String summonerLevel
+        Integer profileIconId,
+        Long revisionDate,
+        Long summonerLevel
 ) {
 }

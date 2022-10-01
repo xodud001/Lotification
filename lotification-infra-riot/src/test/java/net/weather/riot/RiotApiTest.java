@@ -14,7 +14,7 @@ class RiotApiTest {
 
     @Test
     void current_game_info(){
-        String nickname = "Kuri8";
+        String nickname = "March 15";
         SummonerResponse summoner = riotApi.findSummonerByNickname(nickname);
         System.out.println(summoner);
         CurrentGameInfoResponse game = riotApi.findCurrentGameById(summoner.id());
