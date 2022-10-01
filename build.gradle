@@ -34,6 +34,7 @@ subprojects {
 
 	// 관리하는 모듈에 공통 dependencies
 	dependencies {
+		implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
