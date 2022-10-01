@@ -1,7 +1,9 @@
 .idea
+.idea/*.xml
 .gradle
 
 env.properties
+build
 **/build
 # Compiled class file
 *.class
