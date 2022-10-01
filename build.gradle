@@ -52,3 +52,9 @@ project(":lotification-boot-user"){
 }
 
 
+project(":lotification-data-alarm"){
+	dependencies {
+		implementation project(":lotification-data-user")
+		implementation project(":lotification-data-lol")
+	}
+}
