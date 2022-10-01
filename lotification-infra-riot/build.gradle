@@ -1,18 +1,4 @@
-plugins {
-    id 'java'
-}
-
-group 'com.weather'
-version 'unspecified'
-
-repositories {
-    mavenCentral()
-}
 
 dependencies {
-
-}
-
-test {
-    useJUnitPlatform()
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 }
