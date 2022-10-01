@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/lotification-boot-user" />
+            <option value="$PROJECT_DIR$/lotification-data-lol" />
             <option value="$PROJECT_DIR$/lotification-data-user" />
             <option value="$PROJECT_DIR$/lotification-infra-riot" />
           </set>
