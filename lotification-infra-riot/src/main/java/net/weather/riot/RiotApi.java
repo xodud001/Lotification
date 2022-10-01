@@ -14,12 +14,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class RiotApi implements SummonerApi, SpectatorApi {
 
     private final WebClient client;
-    private final static String API_KEY = "RGAPI-b7da5fa8-23b4-479e-8f8f-30516643fb7b";
 
-    public RiotApi() {
+
+    public RiotApi(RiotProperty property) {
         this.client = WebClient.builder()
                 .baseUrl("https://kr.api.riotgames.com")
-                .defaultHeader("X-Riot-Token", API_KEY)
+                .defaultHeader("X-Riot-Token", property.getApiKey())
                 .build();
     }
 
