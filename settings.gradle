@@ -3,4 +3,6 @@ include 'lotification-boot-user'
 include 'lotification-data-user'
 include 'lotification-infra-riot'
 include 'lotification-data-lol'
+include 'lotification-boot-alarm'
+include 'lotification-data-alarm'
 
