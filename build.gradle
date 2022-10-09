@@ -54,6 +54,7 @@ project(":lotification-boot-monitor"){
 project(":lotification-boot-user"){
 	dependencies {
 		implementation project(":lotification-data-user")
+		implementation project(":lotification-infra-kakao")
 	}
 }
 
