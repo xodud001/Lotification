@@ -2,8 +2,8 @@ package net.weather.user.controller.request;
 
 import lombok.Getter;
 
-@Getter
-public class CreateUserRequest {
+public record CreateUserRequest(
+        String name,
+        String email) {
 
-    private String name;
 }

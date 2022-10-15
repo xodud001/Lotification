@@ -8,4 +8,9 @@ include 'lotification-data-alarm'
 include 'lotification-infra-mail'
 include 'lotification-boot-monitor'
 include 'lotification-infra-kakao'
+<<<<<<< HEAD
+=======
+include 'lotification-boot-api'
+include 'lotification-infra-token'
+>>>>>>> feat_15
 
