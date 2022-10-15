@@ -5,6 +5,8 @@ dependencies {
     implementation 'org.springframework:spring-tx'
     implementation 'org.springframework.kafka:spring-kafka:2.9.1'
 
+    implementation 'com.auth0:java-jwt:4.1.0'
+
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
     implementation project(":lotification-data-user")
