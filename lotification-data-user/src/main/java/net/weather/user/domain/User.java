@@ -27,14 +27,10 @@ public class User {
 
     private String email;
 
-<<<<<<< HEAD
-    public User(String name) {
-=======
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<PushToken> tokens = new ArrayList<>();
 
     public User(String name, String email) {
->>>>>>> feat_15
         this.name = name;
         this.email = email;
     }

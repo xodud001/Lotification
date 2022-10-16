@@ -9,6 +9,8 @@ import net.weather.user.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,15 +23,26 @@ public class PushTokenService {
     @Transactional
     public Long createToken(Long userId, String token){
         User user = userService.findById(userId);
-        PushToken pushToken = new PushToken(token);
+        Optional<PushToken> tokenOpt = tokenRepository.findByUser(user);
 
-        pushToken.joinUser(user);
-        PushToken savedToken = tokenRepository.save(pushToken);
+        PushToken savedToken;
+        if(tokenOpt.isEmpty()){
+            PushToken pushToken = new PushToken(token);
+
+            pushToken.joinUser(user);
+            savedToken = tokenRepository.save(pushToken);
+        }else{
+            savedToken = tokenOpt.get();
+        }
 
         return savedToken.getId();
     }
 
     public PushToken findToken(Long id) {
         return tokenRepository.findById(id).orElseThrow(() -> new IllegalStateException(id + " 토큰이 존재하지 않습니다."));
+    }
+
+    public PushToken findByUser(User user){
+        return tokenRepository.findByUser(user).orElseThrow(() -> new IllegalStateException(user.getId() + " 유저의 토큰이 존재하지 않습니다."));
     }
 }

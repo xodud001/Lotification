@@ -10,5 +10,4 @@ public record GetKakaoUserResponse(
         PropertiesResponse properties,
         KakaoAccount kakaoAccount
 ) {
-
 }
