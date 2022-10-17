@@ -23,6 +23,11 @@ public class AlarmService {
     private final AlarmRepository alarmRepository;
     private final AlarmTargetRepository alarmTargetRepository;
 
+    public Alarm findByMonitoringTarget(String summonerId){
+        return alarmRepository.findByMonitoringTarget_Id(summonerId)
+                .orElseThrow(() -> new AlarmNotFoundException(summonerId + " 소환사에 대한 알람이 없습니다."));
+    }
+
     public Alarm findBySummonerId(String summonerId){
         return alarmRepository.findBySummonerId(summonerId)
                 .orElseThrow(() -> new AlarmNotFoundException(summonerId + " 소환사에 대한 알람이 없습니다."));

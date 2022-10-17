@@ -24,7 +24,8 @@ public class Alarm {
     @JoinColumn(name = "summoner_id")
     private Summoner monitoringTarget;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "alarm", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "alarm")
     private List<AlarmTarget> alarmTargets = new ArrayList<>();
 
     public boolean containsUser(User user) {

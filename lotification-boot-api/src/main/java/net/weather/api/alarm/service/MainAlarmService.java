@@ -25,7 +25,7 @@ public class MainAlarmService {
     private final AlarmService alarmService;
 
     @Transactional
-    public void createAlarm(CreateAlarmRequest request) {
+    public void createAlarm(Long userId, CreateAlarmRequest request) {
         boolean isSummonerPresent = summonerService.isPresent(request.targetNickname());
         if(!isSummonerPresent){
             SummonerResponse summonerResponse = riotApi.findSummonerByNickname(request.targetNickname());
@@ -46,8 +46,8 @@ public class MainAlarmService {
             alarmService.createAlarm(summoner);
         }
 
-        User user = userService.findById(request.userId());
-        Alarm alarm = alarmService.findBySummonerId(summoner.getId());
+        User user = userService.findById(userId);
+        Alarm alarm = alarmService.findByMonitoringTarget(summoner.getId());
         alarmService.createAlarmTarget(user, alarm);
 
     }
