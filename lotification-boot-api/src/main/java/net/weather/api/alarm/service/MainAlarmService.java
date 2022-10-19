@@ -3,6 +3,8 @@ package net.weather.api.alarm.service;
 import lombok.RequiredArgsConstructor;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.service.AlarmService;
+import net.weather.alarm.alarm_target.domain.AlarmTarget;
+import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
 import net.weather.api.alarm.controller.request.CreateAlarmRequest;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.lol.summoner.service.SummonerService;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +53,9 @@ public class MainAlarmService {
         Alarm alarm = alarmService.findByMonitoringTarget(summoner.getId());
         alarmService.createAlarmTarget(user, alarm);
 
+    }
+
+    public List<AlarmTargetDto> getAlarmTargets(Long userId) {
+        return alarmService.getAlarmTargets(userId);
     }
 }

@@ -25,7 +25,7 @@ public class AlarmTarget {
     @JoinColumn(name = "alarm_id")
     private Alarm alarm;
 
-    public void setAlarm(Alarm alarm){
+    public void joinAlarm(Alarm alarm){
         if(this.alarm != null){
             this.alarm.getAlarmTargets().remove(this);
         }

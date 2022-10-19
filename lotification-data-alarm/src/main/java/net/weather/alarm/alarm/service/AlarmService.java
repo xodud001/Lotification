@@ -8,11 +8,13 @@ import net.weather.alarm.alarm.exception.ExistAlarmException;
 import net.weather.alarm.alarm.repository.AlarmRepository;
 import net.weather.alarm.alarm_target.domain.AlarmTarget;
 import net.weather.alarm.alarm_target.repository.AlarmTargetRepository;
+import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.user.domain.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -63,11 +65,14 @@ public class AlarmService {
         AlarmTarget alarmTarget = AlarmTarget.builder()
                 .user(user)
                 .build();
-        alarmTarget.setAlarm(alarm);
+        alarmTarget.joinAlarm(alarm);
 
         alarmTargetRepository.save(alarmTarget);
         return alarmTarget.getId();
     }
 
 
+    public List<AlarmTargetDto> getAlarmTargets(Long userId) {
+        return alarmTargetRepository.getAlarmTargets(userId);
+    }
 }
