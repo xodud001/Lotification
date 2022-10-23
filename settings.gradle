@@ -8,4 +8,6 @@ include 'lotification-data-alarm'
 include 'lotification-infra-mail'
 include 'lotification-boot-monitor'
 include 'lotification-infra-kakao'
+include 'lotification-boot-api'
+include 'lotification-infra-token'
 

@@ -3,7 +3,7 @@ package net.weather.kakao.api;
 
 import net.weather.kakao.api.request.GetTokenRequest;
 import net.weather.kakao.api.response.GetTokenResponse;
-import net.weather.kakao.api.response.GetUserResponse;
+import net.weather.kakao.api.response.GetKakaoUserResponse;
 import net.weather.kakao.config.KakaoProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
@@ -34,12 +34,12 @@ public class KakaoApi {
                 .block();
     }
 
-    public GetUserResponse getUser(String accessToken){
+    public GetKakaoUserResponse getUser(String accessToken){
         return this.client.get()
                 .uri("https://kapi.kakao.com//v2/user/me")
                 .header("Authorization", "Bearer " + accessToken)
                 .retrieve()
-                .bodyToMono(GetUserResponse.class)
+                .bodyToMono(GetKakaoUserResponse.class)
                 .block();
     }
 }

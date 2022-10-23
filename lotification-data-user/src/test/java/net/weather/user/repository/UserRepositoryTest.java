@@ -40,8 +40,8 @@ class UserRepositoryTest {
 
     @Test
     void test1(){
-        userRepository.save(new User("test1"));
-        userRepository.save(new User("test2"));
+        userRepository.save(new User("test1", "email1"));
+        userRepository.save(new User("test2", "email2"));
 
         em.flush();
         em.clear();

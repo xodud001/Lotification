@@ -1,5 +1,6 @@
 plugins {
     id 'org.springframework.boot' version '2.7.4'
+	id 'io.spring.dependency-management' version '1.0.14.RELEASE'
     id 'java'
 }
 
@@ -35,6 +36,8 @@ subprojects {
 	// 관리하는 모듈에 공통 dependencies
 	dependencies {
 		implementation 'io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64'
+		implementation 'org.springframework.boot:spring-boot-starter'
+		annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -45,11 +48,6 @@ subprojects {
 	}
 }
 
-project(":lotification-boot-monitor"){
-	dependencies {
-		implementation project(":lotification-data-alarm")
-	}
-}
 
 project(":lotification-boot-user"){
 	dependencies {

@@ -1,6 +1,7 @@
 package net.weather.alarm.alarm.domain;
 
 import lombok.*;
+import net.weather.alarm.alarm_event.domain.AlarmEvent;
 import net.weather.alarm.alarm_target.domain.AlarmTarget;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.user.domain.User;
@@ -24,12 +25,17 @@ public class Alarm {
     @JoinColumn(name = "summoner_id")
     private Summoner monitoringTarget;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "alarm", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "alarm")
     private List<AlarmTarget> alarmTargets = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "alarm")
+    private List<AlarmEvent> alarmEvents = new ArrayList<>();
 
     public boolean containsUser(User user) {
         for (AlarmTarget target : this.alarmTargets) {
-            if(target.getUser().getId().equals(user.getId())){
+            if (target.getUser().getId().equals(user.getId())) {
                 return true;
             }
         }

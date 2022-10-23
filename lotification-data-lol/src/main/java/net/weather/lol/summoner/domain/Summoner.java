@@ -25,4 +25,7 @@ public class Summoner {
 
     private Instant revisionDate; // 마지막으로 수정된 날짜
 
+    private Long summonerLevel;
+    private Integer profileIconId;
+
 }
