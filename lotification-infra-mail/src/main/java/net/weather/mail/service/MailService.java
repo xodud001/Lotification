@@ -17,6 +17,6 @@ public class MailService {
         message.setSubject(request.subject());
         message.setText(request.content());
 
-        javaMailSender.send(message);
+        javaMailSend1er.send(message);
     }
 }
