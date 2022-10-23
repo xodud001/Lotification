@@ -36,7 +36,10 @@ public class MainAlarmService {
                     .accountId(summonerResponse.accountId())
                     .puuid(summonerResponse.puuid())
                     .name(summonerResponse.name())
-                    .revisionDate(revisionDate).build();
+                    .revisionDate(revisionDate)
+                    .summonerLevel(summonerResponse.summonerLevel())
+                    .profileIconId(summonerResponse.profileIconId())
+                    .build();
             summonerService.save(summoner);
         }
 

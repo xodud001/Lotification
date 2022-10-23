@@ -53,6 +53,11 @@ public class UserController {
                 .build();
     }
 
+    @GetMapping("/login/kakao")
+    public ResponseEntity<Void> login(){
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/login/kakao")
     public LoginResponse loginByKakao(@RequestBody KakaoLoginRequest request, HttpServletRequest httpRequest){
         GetKakaoUserResponse kakaoUser = kakaoService.authorize(request.accessToken());

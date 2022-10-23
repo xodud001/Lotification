@@ -5,11 +5,13 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @DiscriminatorValue(value = "KAKAO")
 public class KakaoUser extends User {
+
 
     String kakaoId;
     String accessToken;

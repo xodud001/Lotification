@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
 import net.weather.api.alarm.controller.request.CreateAlarmRequest;
+import net.weather.api.alarm.controller.response.GetAlarmsResponse;
 import net.weather.api.alarm.service.MainAlarmService;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,12 +30,12 @@ public class AlarmController {
     }
 
     @GetMapping("/alarms")
-    public void getAlarms(@RequestHeader("Authorization") String authorization){
+    public GetAlarmsResponse getAlarms(@RequestHeader("Authorization") String authorization){
         String token = authorization.substring(7);
         DecodedJWT decodedJWT = JWT.decode(token);
         Long userId = decodedJWT.getClaim("userId").asLong();
 
         List<AlarmTargetDto> alarmTargets = alarmService.getAlarmTargets(userId);
-
+        return new GetAlarmsResponse(alarmTargets);
     }
 }

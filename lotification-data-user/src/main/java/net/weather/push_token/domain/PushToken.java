@@ -19,7 +19,6 @@ public class PushToken {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="user_id")
     private User user;
-
     private String token;
 
     public PushToken(String token) {
