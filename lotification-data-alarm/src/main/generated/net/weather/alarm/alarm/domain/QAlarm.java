@@ -22,6 +22,8 @@ public class QAlarm extends EntityPathBase<Alarm> {
 
     public static final QAlarm alarm = new QAlarm("alarm");
 
+    public final ListPath<net.weather.alarm.alarm_event.domain.AlarmEvent, net.weather.alarm.alarm_event.domain.QAlarmEvent> alarmEvents = this.<net.weather.alarm.alarm_event.domain.AlarmEvent, net.weather.alarm.alarm_event.domain.QAlarmEvent>createList("alarmEvents", net.weather.alarm.alarm_event.domain.AlarmEvent.class, net.weather.alarm.alarm_event.domain.QAlarmEvent.class, PathInits.DIRECT2);
+
     public final ListPath<net.weather.alarm.alarm_target.domain.AlarmTarget, net.weather.alarm.alarm_target.domain.QAlarmTarget> alarmTargets = this.<net.weather.alarm.alarm_target.domain.AlarmTarget, net.weather.alarm.alarm_target.domain.QAlarmTarget>createList("alarmTargets", net.weather.alarm.alarm_target.domain.AlarmTarget.class, net.weather.alarm.alarm_target.domain.QAlarmTarget.class, PathInits.DIRECT2);
 
     public final NumberPath<Long> id = createNumber("id", Long.class);

@@ -1,5 +1,6 @@
 
 spring:
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: ${db.username}
@@ -15,3 +16,5 @@ spring:
         show_sql: true
         format_sql: true
       database-platform: org.hibernate.dialect.MySQL8Dialect
+server:
+  port: 8081

@@ -6,6 +6,7 @@ import net.weather.alarm.alarm.exception.AlarmNotFoundException;
 import net.weather.alarm.alarm.exception.AlreadyContainsUserException;
 import net.weather.alarm.alarm.exception.ExistAlarmException;
 import net.weather.alarm.alarm.repository.AlarmRepository;
+import net.weather.alarm.alarm_target.repository.dto.SendAlarmTargetDto;
 import net.weather.alarm.alarm_target.domain.AlarmTarget;
 import net.weather.alarm.alarm_target.repository.AlarmTargetRepository;
 import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
@@ -24,6 +25,10 @@ public class AlarmService {
 
     private final AlarmRepository alarmRepository;
     private final AlarmTargetRepository alarmTargetRepository;
+
+    public List<Alarm> findAll(){
+        return alarmRepository.findAll();
+    }
 
     public Alarm findByMonitoringTarget(String summonerId){
         return alarmRepository.findByMonitoringTarget_Id(summonerId)
@@ -74,5 +79,14 @@ public class AlarmService {
 
     public List<AlarmTargetDto> getAlarmTargets(Long userId) {
         return alarmTargetRepository.getAlarmTargets(userId);
+    }
+
+    public Alarm findById(Long alarmId) {
+        return alarmRepository.findById(alarmId)
+                .orElseThrow(() -> new IllegalStateException(alarmId + " 알람이 존재하지 않습니다."));
+    }
+
+    public List<SendAlarmTargetDto> getSendAlarms(Long alarmId){
+        return alarmTargetRepository.getSendAlarmTargets(alarmId);
     }
 }

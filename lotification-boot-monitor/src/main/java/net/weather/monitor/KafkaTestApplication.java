@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @Slf4j
 @EnableConfigurationProperties({KafkaConfig.class})
 @EnableScheduling
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {"net.weather"})
 public class KafkaTestApplication {
 
     public static void main(String[] args) {
