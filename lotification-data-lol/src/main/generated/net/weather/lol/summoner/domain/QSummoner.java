@@ -25,9 +25,13 @@ public class QSummoner extends EntityPathBase<Summoner> {
 
     public final StringPath name = createString("name");
 
+    public final NumberPath<Integer> profileIconId = createNumber("profileIconId", Integer.class);
+
     public final StringPath puuid = createString("puuid");
 
     public final DateTimePath<java.time.Instant> revisionDate = createDateTime("revisionDate", java.time.Instant.class);
+
+    public final NumberPath<Long> summonerLevel = createNumber("summonerLevel", Long.class);
 
     public QSummoner(String variable) {
         super(Summoner.class, forVariable(variable));

@@ -28,4 +28,8 @@ public class AlarmEvent {
     @JoinColumn(name = "alarm_id")
     private Alarm alarm;
 
+    public void joinAlarm(Alarm alarm) {
+        this.alarm = alarm;
+        alarm.getAlarmEvents().add(this);
+    }
 }

@@ -16,7 +16,7 @@ public class TestProducer {
     private final KafkaTemplate<String, String> kafkaTemplate;
     private final static String TOPIC = "lotification";
 
-    @Scheduled(fixedRate = 3000)
+//    @Scheduled(fixedRate = 3000)
     public void produce(){
         kafkaTemplate.send(TOPIC, "롤로노아 김동영");
         log.info("send message");
