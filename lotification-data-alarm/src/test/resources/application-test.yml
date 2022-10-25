@@ -1,0 +1,17 @@
+
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    username: ${db.username}
+    password: ${db.password}
+    url: ${db.url}
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: ${jpa.ddl-auto}
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+      database-platform: org.hibernate.dialect.MySQL8Dialect
