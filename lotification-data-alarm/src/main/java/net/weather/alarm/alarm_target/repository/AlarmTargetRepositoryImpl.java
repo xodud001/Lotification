@@ -34,7 +34,8 @@ public class AlarmTargetRepositoryImpl implements AlarmQueryTargetRepository{
         return query.select(Projections.constructor(AlarmTargetDto.class,
                         alarmTarget.id,
                         alarm.id,
-                        summoner.name))
+                        summoner.name,
+                        summoner.summonerLevel))
                 .from(alarmTarget)
                 .join(alarmTarget.alarm, alarm)
                 .join(alarm.monitoringTarget, summoner)
