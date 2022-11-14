@@ -172,5 +172,6 @@ gradle-app.setting
 gradle
 env.properties
 email.properties
+generated
 
 # End of https://www.toptal.com/developers/gitignore/api/java,gradle,intellij

@@ -30,7 +30,7 @@ public class MainAlarmService {
     @Transactional
     public void createAlarm(Long userId, CreateAlarmRequest request) {
         boolean isSummonerPresent = summonerService.isPresent(request.targetNickname());
-        if(!isSummonerPresent){
+        if (!isSummonerPresent) {
             SummonerResponse summonerResponse = riotApi.findSummonerByNickname(request.targetNickname());
             Instant revisionDate = Instant.ofEpochMilli(summonerResponse.revisionDate());
 
@@ -39,13 +39,15 @@ public class MainAlarmService {
                     .accountId(summonerResponse.accountId())
                     .puuid(summonerResponse.puuid())
                     .name(summonerResponse.name())
+                    .summonerLevel(summonerResponse.summonerLevel())
+                    .profileIconId(summonerResponse.profileIconId())
                     .revisionDate(revisionDate).build();
             summonerService.save(summoner);
         }
 
         Summoner summoner = summonerService.findByNickname(request.targetNickname());
         boolean isAlarmPresent = alarmService.isPresent(summoner.getId());
-        if(!isAlarmPresent){
+        if (!isAlarmPresent) {
             alarmService.createAlarm(summoner);
         }
 

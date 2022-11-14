@@ -78,12 +78,13 @@ public class UserController {
                 .withIssuedAt(issuedAt)
                 .withExpiresAt(issuedAt.plusSeconds(60L * 360L))
                 .withClaim("userId", user.getId())
+                .withClaim("nickname", user.getName())
                 .sign(algorithm);
     }
 
     @GetMapping("/push-token/{id}")
     public GetPushTokenResponse getToken(@PathVariable Long id, @RequestHeader("Authorization") String authorization){
-        PushToken token = tokenService.findToken(id);
+        PushToken token = tokenService.findById(id);
         return new GetPushTokenResponse(token.getToken());
     }
 

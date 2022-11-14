@@ -35,7 +35,8 @@ public class AlarmTargetRepositoryImpl implements AlarmQueryTargetRepository{
                         alarmTarget.id,
                         alarm.id,
                         summoner.name,
-                        summoner.summonerLevel))
+                        summoner.summonerLevel,
+                        alarm.lastPlayTime))
                 .from(alarmTarget)
                 .join(alarmTarget.alarm, alarm)
                 .join(alarm.monitoringTarget, summoner)

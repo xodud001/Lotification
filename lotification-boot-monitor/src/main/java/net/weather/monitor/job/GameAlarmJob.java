@@ -11,6 +11,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,7 +64,9 @@ public class GameAlarmJob {
             Alarm alarm = jobContext.alarm();
 
             if(!eventService.isPresent(currentGame.gameId())){
-                eventService.create(currentGame.gameId(), currentGame.gameStartTime(), alarm);
+                Instant startTime = Instant.ofEpochMilli(currentGame.gameStartTime());
+                alarm.updateLastPlayTime(startTime);
+                eventService.create(currentGame.gameId(), startTime, alarm);
                 targets.add(jobContext);
             }
         }
