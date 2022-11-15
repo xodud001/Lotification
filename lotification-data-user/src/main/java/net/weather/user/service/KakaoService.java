@@ -1,4 +1,4 @@
-package net.weather.api.user.service;
+package net.weather.user.service;
 
 
 import lombok.RequiredArgsConstructor;
@@ -6,7 +6,6 @@ import net.weather.kakao.api.response.GetKakaoUserResponse;
 import net.weather.kakao.service.KakaoLoginService;
 import net.weather.user.domain.KakaoUser;
 import net.weather.user.domain.User;
-import net.weather.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 @Service

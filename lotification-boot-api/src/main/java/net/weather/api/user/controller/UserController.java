@@ -16,7 +16,7 @@ import net.weather.api.user.controller.response.GetPushTokenResponse;
 import net.weather.api.user.controller.response.LoginResponse;
 import net.weather.api.user.controller.response.UserResponse;
 import net.weather.user.domain.User;
-import net.weather.api.user.service.KakaoService;
+import net.weather.user.service.KakaoService;
 import net.weather.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
