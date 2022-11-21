@@ -60,4 +60,8 @@ public class MainAlarmService {
     public List<AlarmTargetDto> getAlarmTargets(Long userId) {
         return alarmService.getAlarmTargets(userId);
     }
+
+    public void deleteAlarmTarget(Long targetId) {
+        alarmService.deleteTargets(targetId);
+    }
 }

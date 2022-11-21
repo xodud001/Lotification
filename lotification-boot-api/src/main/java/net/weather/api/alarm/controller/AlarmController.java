@@ -9,6 +9,7 @@ import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
 import net.weather.api.alarm.controller.request.CreateAlarmRequest;
 import net.weather.api.alarm.controller.response.GetAlarmsResponse;
 import net.weather.api.alarm.service.MainAlarmService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +38,12 @@ public class AlarmController {
 
         List<AlarmTargetDto> alarmTargets = alarmService.getAlarmTargets(userId);
         return new GetAlarmsResponse(alarmTargets);
+    }
+
+    @DeleteMapping("/alarms/targets/{id}")
+    public ResponseEntity<Void> deleteAlarmTargets(@PathVariable("id") Long targetId){
+        alarmService.deleteAlarmTarget(targetId);
+
+        return ResponseEntity.noContent().build();
     }
 }
