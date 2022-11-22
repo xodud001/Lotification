@@ -1,15 +1,12 @@
-package net.weather.monitor;
+package net.weather.monitor.consumer;
 
 import io.github.jav.exposerversdk.ExpoPushMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.service.AlarmService;
-import net.weather.alarm.alarm_target.domain.AlarmTarget;
 import net.weather.alarm.alarm_target.repository.dto.SendAlarmTargetDto;
 import net.weather.monitor.notification.NotificationService;
-import net.weather.push_token.domain.PushToken;
-import net.weather.user.domain.User;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +18,7 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class TestConsumer {
+public class AlarmEventConsumer {
 
     private final AlarmService alarmService;
     private final NotificationService notificationService;

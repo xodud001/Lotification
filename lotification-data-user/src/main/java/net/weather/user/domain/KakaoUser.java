@@ -12,7 +12,6 @@ import javax.persistence.Id;
 @DiscriminatorValue(value = "KAKAO")
 public class KakaoUser extends User {
 
-
     String kakaoId;
     String accessToken;
     String refreshToken;

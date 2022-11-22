@@ -11,7 +11,7 @@ public class MonitoringScheduler {
 
     private final GameAlarmJob gameAlarmJob;
 
-    @Scheduled(cron = "*/30 * * * * *")
+    @Scheduled(cron = "* */2 * * * *")
     public void monitoring(){
         gameAlarmJob.execute();
     }

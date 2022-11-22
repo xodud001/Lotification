@@ -1,6 +1,5 @@
-package net.weather.monitor;
+package net.weather.monitor.config;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

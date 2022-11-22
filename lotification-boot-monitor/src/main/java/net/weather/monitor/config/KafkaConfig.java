@@ -1,4 +1,4 @@
-package net.weather.monitor;
+package net.weather.monitor.config;
 
 
 import lombok.AllArgsConstructor;

@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NotificationService {
 
-
     public void sendNotification(List<ExpoPushMessage> expoPushMessages){
         PushClient client;
         try{

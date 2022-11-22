@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySources;
 @Configuration
 @EnableConfigurationProperties({RiotProperty.class})
 @PropertySources({
-        @PropertySource("classpath:env.properties")
+        @PropertySource("classpath:env-${spring.profiles.active}.properties")
 })
 public class RiotModuleConfig {
 }

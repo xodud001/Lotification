@@ -170,7 +170,7 @@ gradle-app.setting
 
 ## Custom
 gradle
-env.properties
+env*.properties
 email.properties
 generated
 

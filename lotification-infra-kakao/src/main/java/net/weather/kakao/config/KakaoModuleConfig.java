@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySources;
 @Configuration
 @EnableConfigurationProperties({KakaoProperty.class})
 @PropertySources({
-        @PropertySource("classpath:env.properties")
+        @PropertySource("classpath:env-${spring.profiles.active}.properties")
 })
 public class KakaoModuleConfig {
 
