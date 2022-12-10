@@ -19,3 +19,9 @@ spring:
     name: lotification
   config:
     import: optional:configserver:http://localhost:9999
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

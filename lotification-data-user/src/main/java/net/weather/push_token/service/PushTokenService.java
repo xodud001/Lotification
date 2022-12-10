@@ -23,19 +23,21 @@ public class PushTokenService {
     private final PushTokenRepository tokenRepository;
 
     @Transactional
-    public Long createToken(Long userId, String token){
+    public Long createToken(Long userId, String tokenValue){
         User user = userService.findById(userId);
         Optional<PushToken> tokenOpt = tokenRepository.findByUser(user);
 
-        if(tokenOpt.isPresent()) {
-            throw new DuplicationTokenException(user.getId() + " 유저의 토큰이 이미 존재합니다.");
+        PushToken token;
+        if(tokenOpt.isEmpty()) {
+            PushToken pushToken = new PushToken(tokenValue);
+            pushToken.joinUser(user);
+            token = tokenRepository.save(pushToken);
+        } else {
+            token = tokenOpt.get();
+            token.updateToken(tokenValue);
         }
 
-        PushToken pushToken = new PushToken(token);
-        pushToken.joinUser(user);
-        PushToken savedToken = tokenRepository.save(pushToken);
-
-        return savedToken.getId();
+        return token.getId();
     }
 
     public PushToken findById(Long id) {
