@@ -24,7 +24,7 @@ public class AlarmEventConsumer {
     private final NotificationService notificationService;
     private final static String TOPIC = "lotification";
 
-    @KafkaListener(topics = TOPIC, groupId = "lotification")
+//    @KafkaListener(topics = TOPIC, groupId = "lotification")
     public void listen(String alarmId){
         log.info("alarm Id={}", alarmId);
         Alarm alarm = alarmService.findById(Long.valueOf(alarmId));

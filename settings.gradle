@@ -10,4 +10,5 @@ include 'lotification-boot-monitor'
 include 'lotification-infra-kakao'
 include 'lotification-boot-api'
 include 'lotification-infra-token'
+include 'lotification-cloud-config'
 

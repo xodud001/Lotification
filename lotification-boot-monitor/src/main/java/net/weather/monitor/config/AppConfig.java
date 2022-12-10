@@ -22,6 +22,8 @@ public class AppConfig {
     private final Environment environment;
     private final DataSource dataSource;
 
+    private final KafkaConfig config;
+
     @EventListener(ApplicationReadyEvent.class)
     public void ready() throws Exception {
         log.info("database url={}", dataSource.getConnection().getMetaData().getURL());
@@ -33,5 +35,8 @@ public class AppConfig {
         log.info("env.filtered-topic-name={}", environment.getProperty("env.filtered-topic-name"));
         log.info("env.partitioned-topic-name={}", environment.getProperty("env.partitioned-topic-name"));
         log.info("env.riot-api-key={}", environment.getProperty("env.riot-api-key"));
+
+        log.info("kafka-config Bootstrap Address={}", config.getBootstrapAddress());
+        log.info("kafka-config Message Topic Name={}", config.getMessageTopicName());
     }
 }

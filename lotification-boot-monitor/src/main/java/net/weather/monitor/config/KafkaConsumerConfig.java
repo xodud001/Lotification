@@ -25,12 +25,14 @@ public class KafkaConsumerConfig {
         return kafkaListenerContainerFactory("lotification");
     }
 
+    @Bean
     public ConcurrentKafkaListenerContainerFactory<String, String> kafkaListenerContainerFactory(String groupId){
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory(groupId));
         return factory;
     }
 
+    @Bean
     public ConsumerFactory<String, String> consumerFactory(String groupId){
         Map<String, Object> props = new HashMap<>();
 
