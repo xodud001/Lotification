@@ -12,8 +12,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
 @Slf4j
-//@ConstructorBinding
-//@ConfigurationProperties("riot")
 @Configuration
 @Getter
 @RefreshScope
@@ -22,9 +20,4 @@ public class RiotProperty {
     @Value("${riot.api-key}")
     private String apiKey;
 
-    @EventListener(RefreshScopeRefreshedEvent.class)
-    public void onRefresh(RefreshScopeRefreshedEvent event) {
-        log.info("refresh event");
-        log.info("event={}", event);
-    }
 }

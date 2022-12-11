@@ -6,7 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 
 @Configuration
-//@EnableConfigurationProperties({RiotProperty.class})
 @PropertySources({
         @PropertySource("classpath:env-${spring.profiles.active}.properties")
 })
