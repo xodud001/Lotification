@@ -1,4 +1,4 @@
-package net.weather.monitor.consumer;
+package net.weather.monitor.consumer.consumer;
 
 import io.github.jav.exposerversdk.ExpoPushMessage;
 import lombok.RequiredArgsConstructor;
@@ -6,11 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.service.AlarmService;
 import net.weather.alarm.alarm_target.repository.dto.SendAlarmTargetDto;
-import net.weather.monitor.notification.NotificationService;
+import net.weather.monitor.consumer.notification.NotificationService;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +27,15 @@ public class AlarmEventConsumer {
 
     @KafkaListener(topics = TOPIC, groupId = "lotification", containerFactory = "lotificationKafkaListenerContainerFactory")
     public void listen(List<String> alarms){
-
         List<ExpoPushMessage> messages = new ArrayList<>();
 
         for (String alarmId : alarms) {
-            Alarm alarm = alarmService.findById(Long.valueOf(alarmId));
+
+            if(isNotNumber(alarmId)){
+                continue;
+            }
+
+            Alarm alarm = alarmService.findById(Long.parseLong(alarmId));
 
             List<SendAlarmTargetDto> sendAlarms = alarmService.getSendAlarms(alarm.getId());
             for (SendAlarmTargetDto sendAlarm : sendAlarms) {
@@ -42,5 +47,14 @@ public class AlarmEventConsumer {
             }
         }
         notificationService.sendNotification(messages);
+    }
+
+    private boolean isNotNumber(String alarmId) {
+        try{
+            Long.parseLong(alarmId);
+            return false;
+        }catch (NumberFormatException ignore){
+            return true;
+        }
     }
 }

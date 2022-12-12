@@ -1,11 +1,7 @@
-package net.weather.monitor.notification;
+package net.weather.monitor.consumer.notification;
 
 import io.github.jav.exposerversdk.*;
 import lombok.RequiredArgsConstructor;
-import net.weather.push_token.domain.PushToken;
-import net.weather.push_token.service.PushTokenService;
-import net.weather.user.domain.User;
-import net.weather.user.service.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

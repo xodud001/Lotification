@@ -14,12 +14,12 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class RiotApi implements SummonerApi, SpectatorApi {
 
     private final WebClient client;
-
+    private final RiotProperty property;
 
     public RiotApi(RiotProperty property) {
+        this.property = property;
         this.client = WebClient.builder()
                 .baseUrl("https://kr.api.riotgames.com")
-                .defaultHeader("X-Riot-Token", property.getApiKey())
                 .build();
     }
 
@@ -50,6 +50,7 @@ public class RiotApi implements SummonerApi, SpectatorApi {
     private SummonerResponse getSummoner(String path) {
         return client.get()
                 .uri(uriBuilder -> uriBuilder.path(path).build())
+                .header("X-Riot-Token", property.getApiKey())
                 .retrieve()
                 .onStatus(HttpStatus.NOT_FOUND::equals, res -> {
                     throw new SummonerNotFoundException("소환사가 존재하지 않습니다. " + path);
@@ -71,9 +72,10 @@ public class RiotApi implements SummonerApi, SpectatorApi {
         String path = "/lol/spectator/v4/active-games/by-summoner/" + id;
         return client.get()
                 .uri(uriBuilder -> uriBuilder.path(path).build())
+                .header("X-Riot-Token", property.getApiKey())
                 .retrieve()
                 .onStatus(HttpStatus.NOT_FOUND::equals, res -> {
-                    throw new GameNotFoundException(id + "소환사는 현재 게임 중인 소환사가 아닙니다.");
+                    throw new GameNotFoundException(id + " 소환사는 현재 게임 중인 소환사가 아닙니다.");
                 })
                 .onStatus(HttpStatus::is4xxClientError, res -> {
                     log.error(res.logPrefix());
