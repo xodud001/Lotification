@@ -6,6 +6,7 @@ import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.service.AlarmService;
 import net.weather.alarm.alarm_event.service.AlarmEventService;
 import net.weather.riot.RiotApi;
+import net.weather.riot.exception.GameNotFoundException;
 import net.weather.riot.response.CurrentGameInfoResponse;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,8 @@ public class GameAlarmJob {
             try{
                 CurrentGameInfoResponse currentGame = riotApi.findCurrentGameById(alarm.getMonitoringTarget().getId());
                 contexts.add(new JobContext(alarm, currentGame));
+            }catch(GameNotFoundException ignore){
+
             }catch(RuntimeException e){
                 log.error("소환사 조회 실패", e);
             }

@@ -40,6 +40,7 @@ public class AlarmEventConsumer {
             List<SendAlarmTargetDto> sendAlarms = alarmService.getSendAlarms(alarm.getId());
             for (SendAlarmTargetDto sendAlarm : sendAlarms) {
                 ExpoPushMessage message = new ExpoPushMessage();
+                message.setSubtitle("lotification");
                 message.getTo().add(sendAlarm.getPushToken());
                 message.setTitle("게임 시작 알림");
                 message.setBody(String.format("소환사 %s님께서 게임을 시작하셨습니다.", alarm.getMonitoringTarget().getName()) );

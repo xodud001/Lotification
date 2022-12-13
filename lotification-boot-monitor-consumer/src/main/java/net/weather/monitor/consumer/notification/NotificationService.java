@@ -2,6 +2,7 @@ package net.weather.monitor.consumer.notification;
 
 import io.github.jav.exposerversdk.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
@@ -44,20 +46,16 @@ public class NotificationService {
         String okTicketMessagesString = okTicketMessages.stream().map(
                 p -> "Title: " + p.message.getTitle() + ", Id:" + p.ticket.getId()
         ).collect(Collectors.joining(","));
-        System.out.println(
-                "Received OK ticket for " +
-                        okTicketMessages.size() +
-                        " messages: " + okTicketMessagesString
-        );
+        log.info("Received OK ticket for {} messages: {}",
+                        okTicketMessages.size(),
+                        okTicketMessagesString);
 
         List<ExpoPushMessageTicketPair<ExpoPushMessage>> errorTicketMessages = client.filterAllMessagesWithError(zippedMessagesTickets);
         String errorTicketMessagesString = errorTicketMessages.stream().map(
                 p -> "Title: " + p.message.getTitle() + ", Error: " + p.ticket.getDetails().getError()
         ).collect(Collectors.joining(","));
-        System.out.println(
-                "Received ERROR ticket for " +
-                        errorTicketMessages.size() +
-                        " messages: " +
+        log.info("Received ERROR ticket for {} messages: {}",
+                        errorTicketMessages.size(),
                         errorTicketMessagesString
         );
 
