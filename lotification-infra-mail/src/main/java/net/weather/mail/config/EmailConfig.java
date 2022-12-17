@@ -12,7 +12,7 @@ import java.util.Properties;
 
 @Slf4j
 @Configuration
-@PropertySource("classpath:mail/env.properties")
+@PropertySource("classpath:mail/env-${spring.profiles.active}.properties")
 public class EmailConfig {
 
     @Value("${spring.mail.transport.protocol}")

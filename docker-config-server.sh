@@ -1,0 +1,1 @@
+docker run --rm --name config-server -d -p 9999:9999 xodud001/config-server:1.0.0

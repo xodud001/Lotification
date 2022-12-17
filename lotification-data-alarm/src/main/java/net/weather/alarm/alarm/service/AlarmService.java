@@ -89,4 +89,9 @@ public class AlarmService {
     public List<SendAlarmTargetDto> getSendAlarms(Long alarmId){
         return alarmTargetRepository.getSendAlarmTargets(alarmId);
     }
+
+    @Transactional
+    public void deleteTargets(Long targetId){
+        alarmTargetRepository.deleteById(targetId);
+    }
 }

@@ -14,3 +14,14 @@ spring:
         show_sql: true
         format_sql: true
       database-platform: org.hibernate.dialect.MySQL8Dialect
+  application:
+    name: lotification
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh

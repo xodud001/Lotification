@@ -18,7 +18,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class NotificationService {
 
-
     public void sendNotification(List<ExpoPushMessage> expoPushMessages){
         PushClient client;
         try{
@@ -67,37 +66,37 @@ public class NotificationService {
         );
 
         // Countdown 30s
-        int wait = 30;
-        for (int i = wait; i >= 0; i--) {
-            System.out.print("Waiting for " + wait + " seconds. " + i + "s\r");
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        System.out.println("Fetching receipts...");
-
-        List<String> ticketIds = (client.getTicketIdsFromPairs(okTicketMessages));
-        CompletableFuture<List<ExpoPushReceipt>> receiptFutures = client.getPushNotificationReceiptsAsync(ticketIds);
-
-        List<ExpoPushReceipt> receipts = new ArrayList<>();
-        try {
-            receipts = receiptFutures.get();
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(
-                "Received " + receipts.size() + " receipts:");
-
-        for (ExpoPushReceipt receipt : receipts) {
-            System.out.println(
-                    "Receipt for id: " +
-                            receipt.getId() +
-                            " had status: " +
-                            receipt.getStatus());
-
-        }
+//        int wait = 30;
+//        for (int i = wait; i >= 0; i--) {
+//            System.out.print("Waiting for " + wait + " seconds. " + i + "s\r");
+//            try {
+//                Thread.sleep(1000);
+//            } catch (InterruptedException e) {
+//                throw new RuntimeException(e);
+//            }
+//        }
+//        System.out.println("Fetching receipts...");
+//
+//        List<String> ticketIds = (client.getTicketIdsFromPairs(okTicketMessages));
+//        CompletableFuture<List<ExpoPushReceipt>> receiptFutures = client.getPushNotificationReceiptsAsync(ticketIds);
+//
+//        List<ExpoPushReceipt> receipts = new ArrayList<>();
+//        try {
+//            receipts = receiptFutures.get();
+//        } catch (ExecutionException | InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//
+//        System.out.println(
+//                "Received " + receipts.size() + " receipts:");
+//
+//        for (ExpoPushReceipt receipt : receipts) {
+//            System.out.println(
+//                    "Receipt for id: " +
+//                            receipt.getId() +
+//                            " had status: " +
+//                            receipt.getStatus());
+//
+//        }
     }
 }

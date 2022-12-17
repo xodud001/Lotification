@@ -29,4 +29,8 @@ public class PushToken {
         this.user = user;
         user.getTokens().add(this);
     }
+
+    public void updateToken(String token) {
+        this.token = token;
+    }
 }

@@ -7,6 +7,7 @@ import net.weather.lol.summoner.domain.Summoner;
 import net.weather.user.domain.User;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Instant lastPlayTime;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "summoner_id")
@@ -40,5 +42,9 @@ public class Alarm {
             }
         }
         return false;
+    }
+
+    public void updateLastPlayTime(Instant startTime) {
+        this.lastPlayTime = startTime;
     }
 }

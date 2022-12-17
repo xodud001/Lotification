@@ -8,7 +8,7 @@ import org.springframework.context.annotation.PropertySources;
 
 @Configuration
 @PropertySources({
-        @PropertySource("classpath:env.properties")
+        @PropertySource("classpath:env-${spring.profiles.active}.properties")
 })
 @EnableConfigurationProperties({JwtProperties.class})
 public class JwtConfig {

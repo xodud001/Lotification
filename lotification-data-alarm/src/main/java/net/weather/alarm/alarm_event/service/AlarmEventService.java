@@ -18,10 +18,10 @@ public class AlarmEventService {
     private final AlarmEventRepository eventRepository;
 
     @Transactional
-    public Long create(Long gameId, Long gameStartTime, Alarm alarm){
+    public Long create(Long gameId, Instant startTime, Alarm alarm){
         AlarmEvent event = AlarmEvent.builder()
                 .gameId(gameId)
-                .gameStartTime(Instant.ofEpochMilli(gameStartTime))
+                .gameStartTime(startTime)
                 .build();
 
         event.joinAlarm(alarm);

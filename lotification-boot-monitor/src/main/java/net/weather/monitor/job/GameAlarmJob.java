@@ -6,11 +6,13 @@ import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.service.AlarmService;
 import net.weather.alarm.alarm_event.service.AlarmEventService;
 import net.weather.riot.RiotApi;
+import net.weather.riot.exception.GameNotFoundException;
 import net.weather.riot.response.CurrentGameInfoResponse;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,16 +32,18 @@ public class GameAlarmJob {
 
     @Transactional
     public void execute(){
+        log.info("========= START =========");
         List<Alarm> alarms = alarmService.findAll();
-        log.debug("size of all alarms={}", alarms.size());
+        log.info("size of all alarms={}", alarms.size());
 
         List<JobContext> contexts = findPlayings(alarms);
-        log.debug("size of playing={}", contexts.size());
+        log.info("size of playing={}", contexts.size());
 
         List<JobContext> alarmTargets = findTargets(contexts);
-        log.debug("size of targets={}", alarmTargets.size());
+        log.info("size of targets={}", alarmTargets.size());
 
         publishEvent(alarmTargets);
+        log.info("========= END =========");
     }
 
     private List<JobContext> findPlayings(List<Alarm> alarms) {
@@ -49,7 +53,9 @@ public class GameAlarmJob {
             try{
                 CurrentGameInfoResponse currentGame = riotApi.findCurrentGameById(alarm.getMonitoringTarget().getId());
                 contexts.add(new JobContext(alarm, currentGame));
-            }catch(RuntimeException e){
+            }catch(GameNotFoundException ignore){
+            }
+            catch(RuntimeException e){
                 log.error("소환사 조회 실패", e);
             }
         }
@@ -63,7 +69,9 @@ public class GameAlarmJob {
             Alarm alarm = jobContext.alarm();
 
             if(!eventService.isPresent(currentGame.gameId())){
-                eventService.create(currentGame.gameId(), currentGame.gameStartTime(), alarm);
+                Instant startTime = Instant.ofEpochMilli(currentGame.gameStartTime());
+                alarm.updateLastPlayTime(startTime);
+                eventService.create(currentGame.gameId(), startTime, alarm);
                 targets.add(jobContext);
             }
         }
