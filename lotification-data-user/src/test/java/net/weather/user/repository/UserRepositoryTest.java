@@ -17,21 +17,15 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 
-@Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 class UserRepositoryTest {
+
     @PersistenceContext
     EntityManager em;
     @Autowired
     UserRepository userRepository;
-
-    @Container
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8")
-            .withDatabaseName("lotification")
-            .withUsername("admin")
-            .withPassword("1234");
 
     @BeforeEach
     void before(){

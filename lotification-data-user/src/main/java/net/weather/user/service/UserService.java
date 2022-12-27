@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final KakaoUserRepository kakaoUserRepository;
+
 
     public User findById(Long id){
         return userRepository
@@ -28,12 +28,4 @@ public class UserService {
         return savedUser.getId();
     }
 
-    public boolean isPresentKakaoUser(String kakaoId){
-        return kakaoUserRepository.findByKakaoId(kakaoId).isPresent();
-    }
-
-    public KakaoUser findKakaoUserByKakaoId(String id) {
-        return kakaoUserRepository.findByKakaoId(id)
-                .orElseThrow(() -> new IllegalStateException(id + "카카오 유저가 존재하지 않습니다."));
-    }
 }

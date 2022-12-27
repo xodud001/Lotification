@@ -48,23 +48,6 @@ subprojects {
 	}
 }
 
-
-project(":lotification-boot-user"){
-	dependencies {
-		implementation project(":lotification-data-user")
-		implementation project(":lotification-infra-kakao")
-	}
-}
-
-project(":lotification-boot-alarm"){
-	dependencies {
-		implementation project(":lotification-data-user")
-		implementation project(":lotification-data-lol")
-		implementation project(":lotification-data-alarm")
-		implementation project(":lotification-infra-riot")
-	}
-}
-
 project(":lotification-data-alarm"){
 	dependencies {
 		implementation project(":lotification-data-user")

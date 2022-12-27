@@ -8,7 +8,6 @@ import net.weather.user.domain.KakaoUser;
 import net.weather.user.domain.User;
 import net.weather.user.repository.KakaoUserRepository;
 import net.weather.user.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +25,8 @@ import javax.persistence.EntityManager;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 
-@Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
@@ -37,12 +34,6 @@ class KakaoServiceTest {
 
     @Autowired
     EntityManager em;
-
-    @Container
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8")
-            .withDatabaseName("lotification")
-            .withUsername("admin")
-            .withPassword("1234");
 
     @TestConfiguration
     static class Config{
@@ -71,21 +62,18 @@ class KakaoServiceTest {
         }
 
         @Bean
-        public UserService userService(UserRepository userRepository, KakaoUserRepository kakaoUserRepository){
-            return new UserService(userRepository, kakaoUserRepository);
+        public UserService userService(UserRepository userRepository) {
+            return new UserService(userRepository);
         }
 
         @Bean
-        public KakaoService kakaoService(UserService userService){
-            return new KakaoService(userService, kakaoLoginService());
+        public KakaoService kakaoService(UserService userService, KakaoUserRepository kakaoUserRepository){
+            return new KakaoService(kakaoUserRepository, userService, kakaoLoginService());
         }
     }
 
     @Autowired
     KakaoService kakaoService;
-
-    @Autowired
-    UserService userService;
 
     @Test
     void authorize(){
@@ -107,7 +95,7 @@ class KakaoServiceTest {
         em.flush();
         em.clear();
 
-        KakaoUser kakaoUser = userService.findKakaoUserByKakaoId(response.id());
+        KakaoUser kakaoUser = kakaoService.findKakaoUserByKakaoId(response.id());
 
         assertThat(kakaoUser.getId()).isEqualTo(savedUser.getId());
         assertThat(kakaoUser.getEmail()).isEqualTo(savedUser.getEmail());
