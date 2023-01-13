@@ -31,40 +31,14 @@ import java.time.Instant;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
     private final KakaoService kakaoService;
     private final PushTokenService tokenService;
     private final JwtProperties jwtProperties;
 
-    @GetMapping("/users/{id}")
-    public UserResponse findById(@PathVariable("id") Long id){
-        User user = userService.findById(id);
-        return new UserResponse(user.getId(), user.getName());
-    }
-
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/users")
-    public ResponseEntity<UserResponse> save(@RequestBody CreateUserRequest request){
-        User user = new User(request.name(), request.email());
-        Long savedUserId = userService.save(user);
-
-        return ResponseEntity
-                .created( URI.create("/users/"+savedUserId) )
-                .build();
-    }
-
-    @GetMapping("/login/kakao")
-    public ResponseEntity<Void> login(){
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/login/kakao")
-    public LoginResponse loginByKakao(@RequestBody KakaoLoginRequest request, HttpServletRequest httpRequest){
+    public LoginResponse loginByKakao(@RequestBody KakaoLoginRequest request){
         GetKakaoUserResponse kakaoUser = kakaoService.authorize(request.accessToken());
-        log.info("session id(login)={}", httpRequest.getSession().getId() );
-
         User user = kakaoService.loginAndSave(kakaoUser, request.accessToken(), request.refreshToken());
-
         String accessToken = generateAccessToken(user);
 
         return new LoginResponse(accessToken, request.refreshToken());
@@ -83,7 +57,7 @@ public class UserController {
     }
 
     @GetMapping("/push-token/{id}")
-    public GetPushTokenResponse getToken(@PathVariable Long id, @RequestHeader("Authorization") String authorization){
+    public GetPushTokenResponse getToken(@PathVariable Long id){
         PushToken token = tokenService.findById(id);
         return new GetPushTokenResponse(token.getToken());
     }

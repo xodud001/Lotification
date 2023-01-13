@@ -1,6 +1,7 @@
 package net.weather.alarm.alarm.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.exception.AlarmNotFoundException;
 import net.weather.alarm.alarm.exception.AlreadyContainsUserException;
@@ -13,11 +14,14 @@ import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.user.domain.User;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -27,27 +31,21 @@ public class AlarmService {
     private final AlarmTargetRepository alarmTargetRepository;
 
     public List<Alarm> findAll(){
-        return alarmRepository.findAll();
+        return alarmRepository.findAllWithMonitoringTargets();
     }
 
     public Alarm findByMonitoringTarget(String summonerId){
-        return alarmRepository.findByMonitoringTarget_Id(summonerId)
-                .orElseThrow(() -> new AlarmNotFoundException(summonerId + " 소환사에 대한 알람이 없습니다."));
-    }
-
-    public Alarm findBySummonerId(String summonerId){
-        return alarmRepository.findBySummonerId(summonerId)
+        return alarmRepository.findByMonitoringTarget(summonerId)
                 .orElseThrow(() -> new AlarmNotFoundException(summonerId + " 소환사에 대한 알람이 없습니다."));
     }
 
     public boolean isPresent(String summonerId){
-        Optional<Alarm> alarmOpt = alarmRepository.findBySummonerId(summonerId);
+        Optional<Alarm> alarmOpt = alarmRepository.findByMonitoringTarget(summonerId);
         return alarmOpt.isPresent();
     }
 
     @Transactional
     public Long createAlarm(Summoner summoner){
-
         if(isPresent(summoner.getId())){
             throw new ExistAlarmException(summoner.getId() + " 소환사에 대한 알람이 이미 존재합니다.");
         }
@@ -62,7 +60,6 @@ public class AlarmService {
 
     @Transactional
     public Long createAlarmTarget(User user, Alarm alarm){
-
         if(alarm.containsUser(user)){
             throw new AlreadyContainsUserException("이미 등록된 사용자입니다.");
         }
@@ -71,11 +68,10 @@ public class AlarmService {
                 .user(user)
                 .build();
         alarmTarget.joinAlarm(alarm);
+        AlarmTarget savedTarget = alarmTargetRepository.save(alarmTarget);
 
-        alarmTargetRepository.save(alarmTarget);
-        return alarmTarget.getId();
+        return savedTarget.getId();
     }
-
 
     public List<AlarmTargetDto> getAlarmTargets(Long userId) {
         return alarmTargetRepository.getAlarmTargets(userId);
@@ -83,7 +79,7 @@ public class AlarmService {
 
     public Alarm findById(Long alarmId) {
         return alarmRepository.findById(alarmId)
-                .orElseThrow(() -> new IllegalStateException(alarmId + " 알람이 존재하지 않습니다."));
+                .orElseThrow(() -> new AlarmNotFoundException(alarmId + " 알람이 존재하지 않습니다."));
     }
 
     public List<SendAlarmTargetDto> getSendAlarms(Long alarmId){
@@ -93,5 +89,16 @@ public class AlarmService {
     @Transactional
     public void deleteTargets(Long targetId){
         alarmTargetRepository.deleteById(targetId);
+    }
+
+    @Transactional
+    public void updatePlayTime(Long alarmId, Instant startTime){
+        Alarm alarm = findById(alarmId);
+        Instant prev = alarm.getLastPlayTime();
+        alarm.updateLastPlayTime(startTime);
+        log.debug("play time of alarm {} is updated from {} to {}.",
+                alarm.getId(),
+                prev,
+                alarm.getLastPlayTime());
     }
 }

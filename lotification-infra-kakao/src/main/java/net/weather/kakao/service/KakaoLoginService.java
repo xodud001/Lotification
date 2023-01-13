@@ -15,9 +15,6 @@ public class KakaoLoginService {
     private final KakaoApi api;
 
     public GetKakaoUserResponse authorize(String accessToken){
-        GetKakaoUserResponse user = api.getUser(accessToken);
-        log.info("User Response={}", user);
-
-        return user;
+        return api.getUser(accessToken);
     }
 }

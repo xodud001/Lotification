@@ -1,27 +1,19 @@
-package net.weather.alarm.alarm_target.repository;
+package net.weather.alarm.alarm.repository;
 
 import net.weather.alarm.alarm.domain.Alarm;
-import net.weather.alarm.alarm.repository.AlarmRepository;
 import net.weather.alarm.alarm_target.domain.AlarmTarget;
-import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
-import net.weather.alarm.alarm_target.repository.dto.SendAlarmTargetDto;
+import net.weather.alarm.alarm_target.repository.AlarmTargetRepository;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.lol.summoner.repository.SummonerRepository;
-import net.weather.push_token.domain.PushToken;
 import net.weather.user.domain.KakaoUser;
-import net.weather.user.domain.User;
 import net.weather.user.repository.KakaoUserRepository;
 import net.weather.user.repository.UserRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,12 +21,13 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @Transactional
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class AlarmTargetRepositoryTest {
+class AlarmRepositoryTest {
 
     @Autowired
     AlarmTargetRepository alarmTargetRepository;
@@ -120,54 +113,29 @@ class AlarmTargetRepositoryTest {
         em.clear();
     }
 
-    @Test
-    void find_alarm_targets() {
-        KakaoUser kakaoUser = kakaoUserRepository.findByKakaoId("KAKAO_ID").orElseThrow();
-        List<AlarmTargetDto> alarmTargets = alarmTargetRepository.getAlarmTargets(kakaoUser.getId());
 
-        assertThat(alarmTargets.size()).isEqualTo(3);
+    @Test
+    void find_with_monitoring_target(){
+        Optional<Alarm> alarmOpt = alarmRepository.findByMonitoringTarget("SUMMONER_ID1");
+        assertThat(alarmOpt.isPresent()).isTrue();
+
+        Alarm alarm = alarmOpt.get();
+        assertThat(alarm.getMonitoringTarget()).isNotNull();
     }
 
     @Test
-    void find_push_token_of_target(){
-        // given
-        Summoner summoner = Summoner.builder().name("TEST_SUMMONER")
-                .id("TEST_SUMMONER_ID")
-                .revisionDate(Instant.now())
-                .puuid("TEST_PUUID")
-                .accountId("TEST_ACCOUNT_ID")
-                .build();
-        em.persist(summoner);
+    void find_all_with_monitoring_target(){
+        List<Alarm> alarms = alarmRepository.findAllWithMonitoringTargets();
 
-        Alarm alarm = Alarm.builder()
-                .monitoringTarget(summoner)
-                .build();
-        em.persist(alarm);
+        assertThat(alarms.size()).isEqualTo(3);
 
-        User user = new User("TEST_USER", "TEST_EMAIL");
-        em.persist(user);
+        Alarm alarm = alarms.get(0);
 
-        PushToken pushToken = new PushToken("TEST_PUSH_TOKEN");
-        pushToken.joinUser(user);
-        em.persist(pushToken);
-
-        AlarmTarget alarmTarget = AlarmTarget.builder()
-                .user(user)
-                .build();
-        alarmTarget.joinAlarm(alarm);
-        em.persist(alarmTarget);
-
-        em.flush();
-        em.clear();
-
-        //when
-        List<SendAlarmTargetDto> sendAlarms = alarmTargetRepository.getSendAlarmTargets(alarm.getId());
-
-        //then
-        assertThat(sendAlarms.size()).isEqualTo(1);
-        SendAlarmTargetDto sendAlarmTargetDto = sendAlarms.get(0);
-        assertThat(sendAlarmTargetDto.getPushToken()).isEqualTo("TEST_PUSH_TOKEN");
+        Summoner target = alarm.getMonitoringTarget();
+        assertThat(target.getPuuid()).isNotNull();
+        assertThat(target.getId()).isNotNull();
+        assertThat(target.getName()).isNotNull();
+        assertThat(target.getRevisionDate()).isNotNull();
+        assertThat(target.getAccountId()).isNotNull();
     }
-
-
 }

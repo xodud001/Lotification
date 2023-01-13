@@ -2,6 +2,7 @@ package net.weather.alarm.alarm_event.service;
 
 import lombok.RequiredArgsConstructor;
 import net.weather.alarm.alarm.domain.Alarm;
+import net.weather.alarm.alarm.exception.AlarmNotFoundException;
 import net.weather.alarm.alarm_event.domain.AlarmEvent;
 import net.weather.alarm.alarm_event.repository.AlarmEventRepository;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,11 @@ import java.util.Optional;
 public class AlarmEventService {
 
     private final AlarmEventRepository eventRepository;
+
+    public AlarmEvent findById(Long id){
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new AlarmNotFoundException(id + " 알람 이벤트가 없습니다."));
+    }
 
     @Transactional
     public Long create(Long gameId, Instant startTime, Alarm alarm){

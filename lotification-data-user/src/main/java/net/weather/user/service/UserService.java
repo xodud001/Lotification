@@ -1,9 +1,7 @@
 package net.weather.user.service;
 
 import lombok.RequiredArgsConstructor;
-import net.weather.user.domain.KakaoUser;
 import net.weather.user.domain.User;
-import net.weather.user.repository.KakaoUserRepository;
 import net.weather.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-
 
     public User findById(Long id){
         return userRepository
@@ -27,5 +24,4 @@ public class UserService {
         User savedUser = userRepository.save(user);
         return savedUser.getId();
     }
-
 }
