@@ -1,5 +1,6 @@
 package net.weather.alarm.alarm.service;
 
+import jakarta.persistence.PersistenceContext;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.exception.AlarmNotFoundException;
 import net.weather.alarm.alarm.exception.AlreadyContainsUserException;
@@ -18,12 +19,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import java.time.Instant;
 import java.util.List;
@@ -36,7 +36,7 @@ import static org.assertj.core.api.Assertions.*;
 class AlarmServiceTest{
 
     @PersistenceContext
-    EntityManager em;
+    TestEntityManager em;
 
     @TestConfiguration
     static class TestConfig{

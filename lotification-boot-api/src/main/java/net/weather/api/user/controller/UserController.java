@@ -11,18 +11,14 @@ import net.weather.api.config.JwtProperties;
 import net.weather.kakao.api.response.GetKakaoUserResponse;
 import net.weather.push_token.domain.PushToken;
 import net.weather.push_token.service.PushTokenService;
-import net.weather.api.user.controller.request.CreateUserRequest;
 import net.weather.api.user.controller.response.GetPushTokenResponse;
 import net.weather.api.user.controller.response.LoginResponse;
-import net.weather.api.user.controller.response.UserResponse;
 import net.weather.user.domain.User;
 import net.weather.user.service.KakaoService;
-import net.weather.user.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.time.Instant;
 

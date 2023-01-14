@@ -1,10 +1,10 @@
 package net.weather.lol.summoner.domain;
 
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
 import java.time.Instant;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

@@ -1,12 +1,12 @@
 package net.weather.alarm.alarm.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 import net.weather.alarm.alarm_event.domain.AlarmEvent;
 import net.weather.alarm.alarm_target.domain.AlarmTarget;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.user.domain.User;
 
-import javax.persistence.*;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;

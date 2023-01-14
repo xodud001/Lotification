@@ -1,5 +1,6 @@
 package net.weather.alarm.alarm.repository;
 
+import jakarta.persistence.PersistenceContext;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm_target.domain.AlarmTarget;
 import net.weather.alarm.alarm_target.repository.AlarmTargetRepository;
@@ -13,10 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +45,7 @@ class AlarmRepositoryTest {
     KakaoUserRepository kakaoUserRepository;
 
     @PersistenceContext
-    EntityManager em;
+    TestEntityManager em;
 
     @BeforeEach
     void init(){

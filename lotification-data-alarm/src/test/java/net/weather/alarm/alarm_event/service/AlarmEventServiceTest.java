@@ -1,5 +1,7 @@
 package net.weather.alarm.alarm_event.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.alarm.alarm.exception.AlarmNotFoundException;
 import net.weather.alarm.alarm_event.domain.AlarmEvent;
@@ -14,8 +16,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.*;

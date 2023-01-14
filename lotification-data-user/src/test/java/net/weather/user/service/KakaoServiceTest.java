@@ -13,14 +13,11 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-import javax.persistence.EntityManager;
 
 import java.time.LocalDateTime;
 
@@ -33,7 +30,7 @@ import static org.assertj.core.api.Assertions.*;
 class KakaoServiceTest {
 
     @Autowired
-    EntityManager em;
+    TestEntityManager em;
 
     @TestConfiguration
     static class Config{

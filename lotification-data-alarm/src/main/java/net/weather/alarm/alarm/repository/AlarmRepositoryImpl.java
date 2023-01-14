@@ -2,9 +2,9 @@ package net.weather.alarm.alarm.repository;
 
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import net.weather.alarm.alarm.domain.Alarm;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Optional;
 

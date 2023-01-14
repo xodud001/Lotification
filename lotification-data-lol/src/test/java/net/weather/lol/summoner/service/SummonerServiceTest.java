@@ -1,5 +1,7 @@
 package net.weather.lol.summoner.service;
 
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import net.weather.lol.summoner.domain.Summoner;
 import net.weather.lol.summoner.exception.SummonerNotFoundException;
 import net.weather.lol.summoner.repository.SummonerRepository;
@@ -12,14 +14,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
 
 import java.time.Instant;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
