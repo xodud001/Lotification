@@ -71,7 +71,7 @@ class UserControllerTest {
         String content = objectMapper.writeValueAsString(request);
         mockMvc.perform(post("/login/kakao").content(content).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("Login by a kakao account",
+                .andDo(document("login-kakao",
                         requestFields(
                                 fieldWithPath("accessToken").description("Kakao Auth 서버에서 받은 Access Token"),
                                 fieldWithPath("refreshToken").description("Kakao Auth 서버에서 받은 Refresh Token")
