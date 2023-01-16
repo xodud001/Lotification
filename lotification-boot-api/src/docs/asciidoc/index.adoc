@@ -1,4 +1,6 @@
-= Login By Kakao Account
+= Lotification API Docs
+
+== Login By a Kakao Account
 
 카카오 계정을 이용해서 로그인 할 때 사용
 

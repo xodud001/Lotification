@@ -7,6 +7,7 @@ import net.weather.kakao.api.response.KakaoAccount;
 import net.weather.kakao.api.response.ProfileResponse;
 import net.weather.kakao.api.response.PropertiesResponse;
 import net.weather.kakao.service.KakaoLoginService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +17,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.RestDocumentationContextProvider;
+import org.springframework.restdocs.mockmvc.MockMvcOperationPreprocessorsConfigurer;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -36,12 +42,12 @@ class UserControllerTest {
     @Autowired
     MockMvc mockMvc;
 
-
     @MockBean
     KakaoLoginService kakaoLoginService;
 
     @Autowired
     ObjectMapper objectMapper;
+
 
     GetKakaoUserResponse getKakaoUserResponse(){
         PropertiesResponse properties = new PropertiesResponse("TEST_USER", "TEST_EMAIL@naver.com");
@@ -63,6 +69,8 @@ class UserControllerTest {
 
     @Test
     void login_by_kakao() throws Exception {
+
+
         String accessToken = "ACCESS_TOKEN";
         String refreshToken = "REFRESH_TOKEN";
         Mockito.when(kakaoLoginService.authorize(accessToken)).thenReturn(getKakaoUserResponse());
@@ -72,6 +80,8 @@ class UserControllerTest {
         mockMvc.perform(post("/login/kakao").content(content).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(document("login-kakao",
+                        preprocessRequest(prettyPrint()),
+                        preprocessResponse(prettyPrint()),
                         requestFields(
                                 fieldWithPath("accessToken").description("Kakao Auth 서버에서 받은 Access Token"),
                                 fieldWithPath("refreshToken").description("Kakao Auth 서버에서 받은 Refresh Token")
