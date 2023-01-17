@@ -7,6 +7,9 @@ import net.weather.kakao.api.response.KakaoAccount;
 import net.weather.kakao.api.response.ProfileResponse;
 import net.weather.kakao.api.response.PropertiesResponse;
 import net.weather.kakao.service.KakaoLoginService;
+import net.weather.push_token.service.PushTokenService;
+import net.weather.user.domain.User;
+import net.weather.user.service.KakaoService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -27,6 +30,7 @@ import java.time.LocalDateTime;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -48,6 +52,11 @@ class UserControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    KakaoService kakaoService;
+
+    @Autowired
+    PushTokenService tokenService;
 
     GetKakaoUserResponse getKakaoUserResponse(){
         PropertiesResponse properties = new PropertiesResponse("TEST_USER", "TEST_EMAIL@naver.com");
@@ -69,8 +78,6 @@ class UserControllerTest {
 
     @Test
     void login_by_kakao() throws Exception {
-
-
         String accessToken = "ACCESS_TOKEN";
         String refreshToken = "REFRESH_TOKEN";
         Mockito.when(kakaoLoginService.authorize(accessToken)).thenReturn(getKakaoUserResponse());
@@ -91,5 +98,19 @@ class UserControllerTest {
                                 fieldWithPath("refreshToken").description("Kakao Auth 서버에서 받은 Refresh Token")
                         )
                 ));
+    }
+
+    @Test
+    void find_push_token() throws Exception {
+        String accessToken = "ACCESS_TOKEN";
+        String refreshToken = "REFRESH_TOKEN";
+        GetKakaoUserResponse kakaoUserResponse = getKakaoUserResponse();
+        User user = kakaoService.loginAndSave(kakaoUserResponse, accessToken, refreshToken);
+
+        Long tokenId = tokenService.createToken(user.getId(), "TEST_PUSH_TOKEN");
+
+        mockMvc.perform(get("/push-token/"+tokenId))
+                .andExpect(status().isOk());
+
     }
 }
