@@ -9,12 +9,4 @@ import java.util.Optional;
 
 public interface AlarmRepository extends JpaRepository<Alarm, Long>, AlarmQueryRepository {
 
-    @EntityGraph(attributePaths = "alarmTargets")
-    Optional<Alarm> findByMonitoringTarget_Id(String summonerId);
-
-
-    @EntityGraph(attributePaths = "monitoringTarget")
-    @Override
-    List<Alarm> findAll();
-
 }

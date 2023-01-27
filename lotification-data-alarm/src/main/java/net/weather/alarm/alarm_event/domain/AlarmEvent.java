@@ -1,9 +1,9 @@
 package net.weather.alarm.alarm_event.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 import net.weather.alarm.alarm.domain.Alarm;
 
-import javax.persistence.*;
 import java.time.Instant;
 
 

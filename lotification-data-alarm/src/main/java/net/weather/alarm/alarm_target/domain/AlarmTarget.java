@@ -1,10 +1,9 @@
 package net.weather.alarm.alarm_target.domain;
 
+import jakarta.persistence.*;
 import lombok.*;
 import net.weather.alarm.alarm.domain.Alarm;
 import net.weather.user.domain.User;
-
-import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)

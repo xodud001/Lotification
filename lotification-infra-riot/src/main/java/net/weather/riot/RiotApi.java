@@ -6,6 +6,7 @@ import net.weather.riot.exception.SummonerNotFoundException;
 import net.weather.riot.response.CurrentGameInfoResponse;
 import net.weather.riot.response.SummonerResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -55,10 +56,10 @@ public class RiotApi implements SummonerApi, SpectatorApi {
                 .onStatus(HttpStatus.NOT_FOUND::equals, res -> {
                     throw new SummonerNotFoundException("소환사가 존재하지 않습니다. " + path);
                 })
-                .onStatus(HttpStatus::is4xxClientError, res -> {
+                .onStatus(HttpStatusCode::is4xxClientError, res -> {
                     throw new IllegalArgumentException("요청이 잘못되었습니다.");
                 })
-                .onStatus(HttpStatus::is5xxServerError, res -> {
+                .onStatus(HttpStatusCode::is5xxServerError, res -> {
                     log.error(res.logPrefix());
                     throw new IllegalStateException("Riot 서버에 문제가 발생했습니다.");
                 })
@@ -77,11 +78,11 @@ public class RiotApi implements SummonerApi, SpectatorApi {
                 .onStatus(HttpStatus.NOT_FOUND::equals, res -> {
                     throw new GameNotFoundException(id + " 소환사는 현재 게임 중인 소환사가 아닙니다.");
                 })
-                .onStatus(HttpStatus::is4xxClientError, res -> {
+                .onStatus(HttpStatusCode::is4xxClientError, res -> {
                     log.error(res.logPrefix());
                     throw new IllegalArgumentException("요청이 잘못되었습니다.");
                 })
-                .onStatus(HttpStatus::is5xxServerError, res -> {
+                .onStatus(HttpStatusCode::is5xxServerError, res -> {
                     log.error(res.logPrefix());
                     throw new IllegalStateException("Riot 서버에 문제가 발생했습니다.");
                 })

@@ -2,6 +2,7 @@ package net.weather.alarm.alarm_target.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
 import net.weather.alarm.alarm.domain.QAlarm;
 import net.weather.alarm.alarm_target.domain.QAlarmTarget;
 import net.weather.alarm.alarm_target.repository.dto.AlarmTargetDto;
@@ -10,7 +11,6 @@ import net.weather.lol.summoner.domain.QSummoner;
 import net.weather.push_token.domain.QPushToken;
 import net.weather.user.domain.QUser;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 import static net.weather.alarm.alarm.domain.QAlarm.*;

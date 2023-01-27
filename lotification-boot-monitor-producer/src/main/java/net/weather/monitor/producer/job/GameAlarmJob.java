@@ -30,7 +30,6 @@ public class GameAlarmJob {
     private final static String TOPIC = "lotification";
 
 
-    @Transactional
     public void execute(){
         log.info("========= START =========");
         List<Alarm> alarms = alarmService.findAll();
@@ -70,7 +69,7 @@ public class GameAlarmJob {
 
             if(!eventService.isPresent(currentGame.gameId())){
                 Instant startTime = Instant.ofEpochMilli(currentGame.gameStartTime());
-                alarm.updateLastPlayTime(startTime);
+                alarmService.updatePlayTime(alarm.getId(), startTime);
                 eventService.create(currentGame.gameId(), startTime, alarm);
                 targets.add(jobContext);
             }

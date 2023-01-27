@@ -1,15 +1,12 @@
 package net.weather.user.domain;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.weather.push_token.domain.PushToken;
-import org.hibernate.id.UUIDGenerationStrategy;
-import org.hibernate.id.UUIDGenerator;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @Entity

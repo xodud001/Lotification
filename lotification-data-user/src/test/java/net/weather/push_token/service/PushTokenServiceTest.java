@@ -8,30 +8,27 @@ import net.weather.user.domain.User;
 import net.weather.user.repository.KakaoUserRepository;
 import net.weather.user.repository.UserRepository;
 import net.weather.user.service.UserService;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-import javax.persistence.EntityManager;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional
 class PushTokenServiceTest {
 
     @Autowired
-    EntityManager em;
+    TestEntityManager em;
 
     @Autowired
     PushTokenRepository pushTokenRepository;
@@ -42,12 +39,6 @@ class PushTokenServiceTest {
     @Autowired
     UserService userService;
 
-    @Container
-    static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8")
-            .withDatabaseName("lotification")
-            .withUsername("admin")
-            .withPassword("1234");
-
     @TestConfiguration
     static class TestConfig{
         @Bean
@@ -56,8 +47,8 @@ class PushTokenServiceTest {
         }
 
         @Bean
-        public UserService userService(UserRepository userRepository, KakaoUserRepository kakaoUserRepository){
-            return new UserService(userRepository, kakaoUserRepository);
+        public UserService userService(UserRepository userRepository){
+            return new UserService(userRepository);
         }
     }
 
@@ -103,11 +94,14 @@ class PushTokenServiceTest {
     }
 
     @Test
-    void create_with_duplicate(){
+    void upsert(){
         User user = new User("김태영", "dud708@naver.com");
         userService.save(user);
 
         tokenService.createToken(user.getId(), "EXPO_PUSH_NOTIFICATION_TOKEN");
-        assertThrows(DuplicationTokenException.class, () -> tokenService.createToken(user.getId(), "EXPO_PUSH_NOTIFICATION_TOKEN"));
+        Long tokenId = tokenService.createToken(user.getId(), "UPSERT_EXPO_PUSH_NOTIFICATION_TOKEN");
+
+        PushToken token = tokenService.findById(tokenId);
+        assertThat(token.getToken()).isEqualTo("UPSERT_EXPO_PUSH_NOTIFICATION_TOKEN");
     }
 }
